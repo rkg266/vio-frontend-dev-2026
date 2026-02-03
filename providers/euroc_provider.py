@@ -65,6 +65,26 @@ class EuRoCProvider(IDataProvider):
         self._last_t = assert_non_decreasing(self._last_t, ev.t_ns, "EuRoCProvider")
         return ev
 
+    @staticmethod
+    def load_groundtruth(seq_root: Path):
+        gt_path = seq_root / "mav0" / "state_groundtruth_estimate0" / "data.csv"
+        data = np.loadtxt(gt_path, delimiter=",", comments="#")
+
+        t_ns = data[:, 0].astype(np.int64)
+        p_w  = data[:, 1:4].astype(np.float64)
+
+        return t_ns, p_w
+
+    @staticmethod
+    def interp_gt_pos(gt_t_ns: np.ndarray, gt_p: np.ndarray, query_t_ns: np.ndarray) -> np.ndarray:
+        # linear interpolation on each axis
+        gt_t = gt_t_ns.astype(np.float64)
+        q_t  = query_t_ns.astype(np.float64)
+
+        p_interp = np.empty((len(q_t), 3), dtype=np.float64)
+        for k in range(3):
+            p_interp[:, k] = np.interp(q_t, gt_t, gt_p[:, k])
+        return p_interp
     # ---------- helpers ----------
 
     def _load_imu_index(self, imu_csv: Path) -> List[Tuple[int, np.ndarray, np.ndarray]]:

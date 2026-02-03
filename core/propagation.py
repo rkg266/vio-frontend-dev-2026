@@ -50,12 +50,12 @@ def propagate_midpoint(
         w_mid = 0.5 * ((s0.gyro - bg) + (s1.gyro - bg))
         a_mid = 0.5 * ((s0.accel - ba) + (s1.accel - ba))
 
+        # The update performed here is exactly same as pose-mean predict step in the class project - done for R and p separately instead of pose T matrix
+
         dR = so3_exp(w_mid * dt)
         R_new = R @ dR
 
         R_mid = R @ so3_exp(w_mid * (0.5 * dt))  # better approximation of orientation at dt/2 midpoint instance
-        tep = R_mid @ a_mid
-        tep1 = np.linalg.norm(tep)
         a_w = R_mid @ a_mid + g_w
 
         v_new = v + a_w * dt

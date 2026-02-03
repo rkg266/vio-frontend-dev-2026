@@ -22,3 +22,10 @@ class NominalState:
             b_g=np.zeros(3),
             b_a=np.zeros(3),
         )
+    
+    def getPose(self):
+        T = np.zeros((4,4))
+        T[0:3, 0:3] = self.R_wb
+        T[0:3, 3] = self.p_w
+        T[3, 3] = 1
+        return T
