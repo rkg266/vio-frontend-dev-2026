@@ -95,7 +95,7 @@ EuRoC Dataset
 - Dominant discrepancy is global yaw (unobservable in pure VIO)
 
 <p align="center"> <img src="results/vio_vs_ground_truth.png" width="600"> </p>
-Position error over time
+### Position error over time
 <p align="center"> <img src="results/position_error_vs_time.png" width="600"> </p>
 
 ### Key metrics:
@@ -142,10 +142,12 @@ vio_frontend/
 │
 ├── scripts/
 │   ├── run_vio_frontend.py   # Main entry point
+│   ├── euroc_sanity.py   # dataset sanity check
+│   ├── sanity_rectify.py   # stereo rectification sanity check
 │
-├── assets/
-│   ├── vio_vs_gt.png
-│   ├── position_error.png
+├── results/
+│   ├── vio_vs_ground_truth.png
+│   ├── position_error_vs_time.png
 │
 └── README.md
 ```
