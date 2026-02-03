@@ -86,3 +86,129 @@ EuRoC Dataset
 - Yaw gauge freedom analysis and alignment
 
 - Position error and drift analysis
+
+## Results (EuRoC V1_01_easy)
+### Trajectory comparison (after yaw alignment)
+
+- Estimated trajectory closely matches ground truth curvature and scale
+
+- Dominant discrepancy is global yaw (unobservable in pure VIO)
+
+<p align="center"> <img src="results/vio_vs_ground_truth.png" width="600"> </p>
+Position error over time
+<p align="center"> <img src="results/position_error_vs_time.png" width="600"> </p>
+
+### Key metrics:
+
+- Initial position error: ~3–4 cm
+
+- Final position error (~10 s): ~12 cm
+
+- Drift rate: ~1.2 cm/s
+
+- No instability or divergence observed
+
+This behavior is expected for VIO-only odometry without loop closure or EKF covariance propagation.
+
+## Important Observations
+
+- Yaw is unobservable in pure VIO and must be fixed by alignment or external reference
+
+- Gravity-based initialization correctly estimates roll and pitch
+
+- Drift accumulates gradually due to odometry-only operation
+
+- Numeric Jacobians are sufficient for stable optimization at this scale
+
+## Repository Structure
+```text
+vio_frontend/
+├── core/
+│   ├── state.py              # Nominal state definition
+│   ├── propagation.py        # IMU midpoint integration
+│   ├── imu_buffer.py
+│
+├── frontend/
+│   ├── tracker.py            # FAST + LK stereo frontend
+│   ├── triangulation.py
+│   ├── rectifier.py
+│
+├── providers/
+│   ├── euroc_provider.py     # EuRoC dataset reader
+│
+├── estimation/
+│   ├── vision_gn.py          # Gauss–Newton pose update
+│   ├── jacobians.py
+│
+├── scripts/
+│   ├── run_vio_frontend.py   # Main entry point
+│
+├── assets/
+│   ├── vio_vs_gt.png
+│   ├── position_error.png
+│
+└── README.md
+```
+
+## Running the Code
+### Requirements
+
+- Python 3.9+
+
+- NumPy
+
+- OpenCV
+
+- Matplotlib
+
+- SciPy
+
+### Example
+```text
+python -m vio_frontend.scripts.run_vio_frontend
+```
+## Dataset
+
+- EuRoC MAV Dataset
+
+- Sequence: V1_01_easy
+
+- Ground truth from Vicon motion capture
+
+[https://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets](https://projects.asl.ethz.ch/datasets/euroc-mav/)
+
+## Limitations (By Design)
+
+This project intentionally focuses on odometry, not full SLAM.
+
+Not included:
+
+- Loop closure
+
+- Global map optimization
+
+- EKF covariance propagation (planned extension)
+
+- Magnetometer or GPS yaw fixing
+
+## Planned Extensions
+
+- EKF covariance propagation and update
+
+- Estimator consistency analysis (NEES/NIS)
+
+- Sliding-window bundle adjustment
+
+- ROS2 integration for real-time visualization
+
+## Motivation
+
+This project was built to:
+
+- deeply understand visual–inertial estimation
+
+- bridge theory and real sensor data
+
+- gain hands-on experience with nonlinear estimation pipelines
+
+It complements a separate academic EKF-SLAM project with known landmarks by addressing raw-data, real-world challenges.
