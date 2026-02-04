@@ -127,18 +127,17 @@ vio_frontend/
 │   ├── state.py              # Nominal state definition
 │   ├── propagation.py        # IMU midpoint integration
 │   ├── imu_buffer.py
+|   ├── init/
+│       ├── gravity_inti.py   # Initial orientation finding aligned with gravity
+|   ├── stereo/               # FAST + LK stereo frontend, rectifier, tracking, triangulation
+|   ├── vision/               # Gauss-Newton pose update, 
+│       ├── update_gn.py 
 │
-├── frontend/
-│   ├── tracker.py            # FAST + LK stereo frontend
-│   ├── triangulation.py
-│   ├── rectifier.py
+├── frontend/                 
+│   ├── vio_frontend.py        # Event-based orchestrator - IMU propagation, pose update
 │
 ├── providers/
 │   ├── euroc_provider.py     # EuRoC dataset reader
-│
-├── estimation/
-│   ├── vision_gn.py          # Gauss–Newton pose update
-│   ├── jacobians.py
 │
 ├── scripts/
 │   ├── run_vio_frontend.py   # Main entry point
