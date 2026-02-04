@@ -128,7 +128,7 @@ vio_frontend/
 │   ├── propagation.py        # IMU midpoint integration
 │   ├── imu_buffer.py
 |   ├── init/
-│       ├── gravity_inti.py   # Initial orientation finding aligned with gravity
+│       ├── gravity_init.py   # Initial orientation finding aligned with gravity
 |   ├── stereo/               # FAST + LK stereo frontend, rectifier, tracking, triangulation
 |   ├── vision/               # Gauss-Newton pose update, 
 │       ├── update_gn.py 
