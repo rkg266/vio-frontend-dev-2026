@@ -95,6 +95,7 @@ EuRoC Dataset
 - Dominant discrepancy is global yaw (unobservable in pure VIO)
 
 <p align="center"> <img src="results/vio_vs_ground_truth.png" width="600"> </p>
+
 ### Position error over time
 <p align="center"> <img src="results/position_error_vs_time.png" width="600"> </p>
 
